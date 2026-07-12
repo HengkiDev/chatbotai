@@ -29,9 +29,13 @@ jobs:
         env:
           CHATBOT_CONFIG_JSON: ${{ secrets.CHATBOT_CONFIG_JSON }}
         run: |
-          if [ -n "$CHATBOT_CONFIG_JSON" ]; then
-            printf 'window.CHATBOT_CONFIG = %s;\n' "$CHATBOT_CONFIG_JSON" > config.js
+          if [ -z "$CHATBOT_CONFIG_JSON" ]; then
+            echo "CHATBOT_CONFIG_JSON secret is empty or not available."
+            exit 1
           fi
+          node -e "JSON.parse(process.env.CHATBOT_CONFIG_JSON); console.log('CHATBOT_CONFIG_JSON is valid JSON')"
+          printf 'window.CHATBOT_CONFIG = %s;\n' "$CHATBOT_CONFIG_JSON" > config.js
+          echo "Generated config.js from CHATBOT_CONFIG_JSON"
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
