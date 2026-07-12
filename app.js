@@ -18,6 +18,8 @@ const menuToggle = document.querySelector(".menu-toggle");
 const navLinks = document.querySelector(".nav-links");
 let selectedProviderValue = "auto";
 
+const PUBLIC_MODEL_PREFIX = "Model Presisi";
+
 if (menuToggle && navLinks) {
   menuToggle.addEventListener("click", () => {
     const isOpen = navLinks.classList.toggle("is-open");
@@ -126,10 +128,11 @@ function renderProviders() {
   providers.forEach((provider, index) => {
     const item = document.createElement("div");
     item.className = "provider-item";
+    const publicName = getPublicProviderName(index);
     item.innerHTML = `
       <span class="status-dot ${index === 0 ? "green" : index % 2 === 0 ? "blue" : "red"}" aria-hidden="true"></span>
-      <strong>${escapeHtml(provider.name || `Provider ${index + 1}`)}</strong>
-      <span class="small-note">${escapeHtml(provider.method || "GET")} · fallback #${index + 1}</span>
+      <strong>${escapeHtml(publicName)}</strong>
+      <span class="small-note">Jalur privat · fallback #${String(index + 1).padStart(2, "0")}</span>
     `;
     providerList.appendChild(item);
   });
@@ -143,8 +146,12 @@ function renderProviderOptions() {
 
   providers.forEach((provider, index) => {
     const status = index === 0 ? "green" : index % 2 === 0 ? "blue" : "red";
-    providerMenu.appendChild(createProviderOption(String(index), provider.name || `Model AI ${index + 1}`, status));
+    providerMenu.appendChild(createProviderOption(String(index), getPublicProviderName(index), status));
   });
+}
+
+function getPublicProviderName(index) {
+  return `${PUBLIC_MODEL_PREFIX} ${String(index + 1).padStart(2, "0")}`;
 }
 
 function createProviderOption(value, label, status) {
@@ -187,15 +194,18 @@ async function askWithFallback(prompt, selectedProvider = "auto") {
   const failures = [];
   const selectedIndex = Number(selectedProvider);
   const selectedProviders = selectedProvider === "auto" || Number.isNaN(selectedIndex)
-    ? providers
-    : providers.filter((_, index) => index === selectedIndex);
+    ? providers.map((provider, index) => ({ provider, index }))
+    : providers
+      .map((provider, index) => ({ provider, index }))
+      .filter((entry) => entry.index === selectedIndex);
 
-  for (const provider of selectedProviders) {
+  for (const { provider, index } of selectedProviders) {
     const startedAt = performance.now();
+    const publicName = getPublicProviderName(index);
 
     try {
       if (systemStatus) {
-        systemStatus.textContent = provider.name || "Requesting";
+        systemStatus.textContent = publicName;
       }
       updateProviderIndicator("loading");
       const data = await callProvider(provider, prompt);
@@ -206,12 +216,12 @@ async function askWithFallback(prompt, selectedProvider = "auto") {
       }
 
       return {
-        provider: provider.name || "Provider",
+        provider: publicName,
         text,
         elapsed: Math.round(performance.now() - startedAt)
       };
     } catch (error) {
-      failures.push(`${provider.name || "Provider"}: ${error.message}`);
+      failures.push(`${publicName}: ${error.message}`);
       updateProviderIndicator("error");
     }
   }
@@ -507,6 +517,7 @@ function escapeHtml(value) {
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
 }
+
 
 
 
