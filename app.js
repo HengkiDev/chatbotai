@@ -18,8 +18,6 @@ const menuToggle = document.querySelector(".menu-toggle");
 const navLinks = document.querySelector(".nav-links");
 let selectedProviderValue = "auto";
 
-const PUBLIC_MODEL_PREFIX = "Model Presisi";
-
 if (menuToggle && navLinks) {
   menuToggle.addEventListener("click", () => {
     const isOpen = navLinks.classList.toggle("is-open");
@@ -128,7 +126,7 @@ function renderProviders() {
   providers.forEach((provider, index) => {
     const item = document.createElement("div");
     item.className = "provider-item";
-    const publicName = getPublicProviderName(index);
+    const publicName = getPublicProviderName(provider, index);
     item.innerHTML = `
       <span class="status-dot ${index === 0 ? "green" : index % 2 === 0 ? "blue" : "red"}" aria-hidden="true"></span>
       <strong>${escapeHtml(publicName)}</strong>
@@ -146,12 +144,18 @@ function renderProviderOptions() {
 
   providers.forEach((provider, index) => {
     const status = index === 0 ? "green" : index % 2 === 0 ? "blue" : "red";
-    providerMenu.appendChild(createProviderOption(String(index), getPublicProviderName(index), status));
+    providerMenu.appendChild(createProviderOption(String(index), getPublicProviderName(provider, index), status));
   });
 }
 
-function getPublicProviderName(index) {
-  return `${PUBLIC_MODEL_PREFIX} ${String(index + 1).padStart(2, "0")}`;
+function getPublicProviderName(provider, index) {
+  const rawName = String(provider?.name || `AI ${index + 1}`).trim();
+  const cleanedName = rawName
+    .replace(/^(Snowping|Siputzx)\s+/i, "")
+    .replace(/\s+/g, " ")
+    .trim();
+
+  return cleanedName || `AI ${index + 1}`;
 }
 
 function createProviderOption(value, label, status) {
@@ -201,7 +205,7 @@ async function askWithFallback(prompt, selectedProvider = "auto") {
 
   for (const { provider, index } of selectedProviders) {
     const startedAt = performance.now();
-    const publicName = getPublicProviderName(index);
+    const publicName = getPublicProviderName(provider, index);
 
     try {
       if (systemStatus) {
@@ -517,6 +521,7 @@ function escapeHtml(value) {
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
 }
+
 
 
 
