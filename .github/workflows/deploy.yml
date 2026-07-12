@@ -1,0 +1,46 @@
+name: Deploy static chatbot
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Generate runtime config from secret
+        shell: bash
+        env:
+          CHATBOT_CONFIG_JSON: ${{ secrets.CHATBOT_CONFIG_JSON }}
+        run: |
+          if [ -n "$CHATBOT_CONFIG_JSON" ]; then
+            printf 'window.CHATBOT_CONFIG = %s;\n' "$CHATBOT_CONFIG_JSON" > config.js
+          fi
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

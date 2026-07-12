@@ -1,0 +1,102 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Ruang chat Hengki Chatbot AI." />
+    <title>Ruang Chat · Hengki Chatbot AI</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Roboto:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="site-header" aria-label="Navigasi utama">
+        <div class="nav-inner">
+          <a class="brand" href="index.html" aria-label="Hengki Chatbot AI">
+            <span class="brand-mark" aria-hidden="true">🤖︎</span>
+            <span>Hengki Chatbot AI</span>
+          </a>
+
+          <button
+            class="menu-toggle"
+            type="button"
+            aria-label="Buka menu navigasi"
+            aria-expanded="false"
+            aria-controls="primary-navigation"
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+
+          <nav id="primary-navigation" class="nav-links" aria-label="Menu halaman">
+            <a href="index.html">Home</a>
+            <a href="chat.html">Ruang Chat</a>
+          </nav>
+        </div>
+      </header>
+
+      <main>
+        <section id="chat" class="chat-section chat-section-full reveal" aria-labelledby="chat-title">
+          <div class="section-heading">
+            <p class="eyebrow">Console</p>
+            <h1 id="chat-title">Ruang Chat</h1>
+          </div>
+
+          <div class="chat-layout chat-layout-full">
+            <section class="chat-card chat-card-full" aria-label="Aplikasi chatbot">
+              <div id="messages" class="messages" aria-live="polite">
+                <article class="message assistant">
+                  <div class="message-meta">Hengki Chatbot AI · ready</div>
+                  <p>Halo, selamat datang di Hengki Chatbot AI. Tulis pertanyaan Anda di bawah.</p>
+                </article>
+              </div>
+
+              <form id="chat-form" class="chat-form">
+                <label for="prompt">Pertanyaan</label>
+                <div class="input-row">
+                  <input
+                    id="prompt"
+                    name="prompt"
+                    type="text"
+                    placeholder="Tulis pesan Anda di sini"
+                    required
+                  />
+                  <div class="provider-select-wrap" title="Pilih model AI">
+                    <button
+                      id="provider-select"
+                      class="provider-select provider-select-button"
+                      type="button"
+                      aria-haspopup="listbox"
+                      aria-expanded="false"
+                    >
+                      <span id="provider-status-dot" class="status-dot green" aria-hidden="true"></span>
+                      <span id="provider-selected-label">Auto</span>
+                    </button>
+                    <div id="provider-menu" class="provider-menu" role="listbox" aria-label="Daftar model AI"></div>
+                  </div>
+                  <button id="send-button" class="button button-primary send-button" type="submit" aria-label="Kirim pesan">
+                    <span class="send-label">Kirim</span>
+                    <svg class="send-icon" viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M3.4 20.4 21 12 3.4 3.6 3 10.2 14 12 3 13.8l.4 6.6Z" />
+                    </svg>
+                  </button>
+                </div>
+              </form>
+            </section>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
+

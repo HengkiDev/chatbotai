@@ -1,0 +1,92 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Hengki Chatbot AI, asisten percakapan digital dengan tampilan teknologi presisi."
+    />
+    <title>Hengki Chatbot AI</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Roboto:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="site-header" aria-label="Navigasi utama">
+        <div class="nav-inner">
+          <a class="brand" href="#top" aria-label="Hengki Chatbot AI">
+            <span class="brand-mark" aria-hidden="true">🤖︎</span>
+            <span>Hengki Chatbot AI</span>
+          </a>
+
+          <button
+            class="menu-toggle"
+            type="button"
+            aria-label="Buka menu navigasi"
+            aria-expanded="false"
+            aria-controls="primary-navigation"
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+
+          <nav id="primary-navigation" class="nav-links" aria-label="Menu halaman">
+            <a href="index.html">Home</a>
+            <a href="chat.html">Ruang Chat</a>
+          </nav>
+        </div>
+      </header>
+
+      <main id="top">
+        <section class="hero section-grid" aria-labelledby="hero-title">
+          <div class="hero-copy reveal">
+            <p class="eyebrow">Multi-provider AI Gateway</p>
+            <h1 id="hero-title">Hengki Chatbot AI</h1>
+            <p class="hero-description">
+              Selamat datang di ruang percakapan pintar dengan tampilan modern, bersih, dan responsif.
+              Tanyakan ide, minta bantuan menulis, cari penjelasan singkat, atau mulai obrolan kreatif
+              langsung dari satu tempat.
+            </p>
+            <div class="hero-actions">
+              <a class="button button-primary" href="chat.html">Mulai Chat</a>
+            </div>
+          </div>
+
+          <div class="tech-panel reveal" aria-label="Panel visual teknologi presisi">
+            <div class="chip-card">
+              <div class="chip-header">
+                <span>API ROUTER</span>
+                <strong id="provider-count">0</strong>
+              </div>
+              <div class="router-providers" aria-label="Daftar model AI aktif">
+                <div id="provider-list" class="provider-list compact"></div>
+              </div>
+              <div class="metrics">
+                <div>
+                  <span>Status</span>
+                  <strong id="system-status">Ready</strong>
+                </div>
+                <div>
+                  <span>Mode</span>
+                  <strong>Fallback</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
+
