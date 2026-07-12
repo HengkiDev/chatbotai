@@ -3,6 +3,7 @@
 !.env.example
 github-secret-value.txt
 config.local.js
+config.generated.js
 node_modules/
 dist/
 .DS_Store
